@@ -1,3 +1,8 @@
+### Claim
+This directory is forked and modified from [Hu *et al.*'s](https://github.com/HuXiaoling/DMT_loss) (2021) code. Major changes:
+- Rewritten all matlab scripts into Python
+- Automated Discrete Morse Complex calculation end-to-end with `run_dmt.sh`
+
 ### Automated script
 
 `run_dmt.sh` runs through all steps from the input likelihood map $f$ to the reconstructed discrete morse complex. Please find the arguments by running `./run_dmt.sh -h`. An example command is provided with the given `data_2d/` input image:
