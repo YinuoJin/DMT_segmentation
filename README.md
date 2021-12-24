@@ -39,6 +39,7 @@ optional arguments:
 - train.py:     training; command-line interface
 - utils:        utility & self-defined loss functions
 |_ dmt:             Modified (automated) code from https://github.com/HuXiaoling/DMT_loss
+|_ docs:            html "screenshot" of the analysis notebooks
 |_ data:            dataset 
 |_ results:         training log & output files
 ```
