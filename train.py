@@ -36,6 +36,7 @@ class Arguments:
         self.sigma = kwargs['sigma']
         self.loss_name = kwargs['loss_name']
         self.loss_fn = kwargs['loss_function']
+        self.thld = kwargs['thld']
 
 def train(args):
     if not os.path.exists(args.out_path):
@@ -76,10 +77,28 @@ def train(args):
         t0 = time.perf_counter()
 
         print('*------------------------------------------------------*')
-        train_loss, train_acc = run_one_epoch(net, train_dataloader, train_distmap, optimizer, args.loss_fn,
-                                              loss_name=args.loss_name, alpha=0.8, train=True, device=device)
-        val_loss, val_acc = run_one_epoch(net, val_dataloader, val_distmap, optimizer, args.loss_fn,
-                                          loss_name=args.loss_name, alpha=0.8, device=device)
+        train_loss, train_acc = run_one_epoch(net,
+                                              train_dataloader,
+                                              train_distmap,
+                                              optimizer,
+                                              args.loss_fn,
+                                              loss_name=args.loss_name,
+                                              thld=args.thld,
+                                              alpha=0.8,
+                                              train=True,
+                                              device=device
+                                              )
+
+        val_loss, val_acc = run_one_epoch(net,
+                                          val_dataloader,
+                                          val_distmap,
+                                          optimizer,
+                                          args.loss_fn,
+                                          loss_name=args.loss_name,
+                                          thld=args.thld,
+                                          alpha=0.8,
+                                          device=device
+                                          )
         train_accs.append(train_acc)
         train_losses.append(train_loss)
         val_accs.append(val_acc)
@@ -107,7 +126,15 @@ def train(args):
     return train_accs, train_losses, val_accs, val_losses
 
 
-def run_one_epoch(model, dataloader, distmap, optimizer, loss_fn, loss_name, alpha=0.8, train=False, device=None):
+def run_one_epoch(model,
+                  dataloader,
+                  distmap,
+                  optimizer,
+                  loss_fn,
+                  loss_name,
+                  thld,
+                  alpha=0.8,
+                  train=False, device=None):
     """Single epoch training/validating"""
     torch.set_grad_enabled(train)
     model.train() if train else model.eval()
@@ -136,7 +163,7 @@ def run_one_epoch(model, dataloader, distmap, optimizer, loss_fn, loss_name, alp
             save_ll(output)  # save current likelihood map
             p = subprocess.Popen(
                 ["./run_dmt.sh", "8", "data/", "inputs/", "output/",
-                 "256", "256", "1", "50", "mask"],
+                 "256", "256", "1", str(thld), "mask"],
                 cwd="dmt/",
                 shell=False,
                 stdout=subprocess.DEVNULL,
@@ -224,6 +251,8 @@ if __name__ == '__main__':
                           help='Learning rate')
     optional.add_argument('-p', dest='patience_counter', type=int, default=30, action='store',
                           help='Patience counter for early-stopping or lr-tuning')
+    optional.add_argument('-t', '--thld', dest='thld', type=int, default=50, action='store',
+                          help='Persistent Homology threshold for pruning DMT')
     optional.add_argument('--early-stop', dest='early_stop', action='store_true',
                           help='Whether to perform early-stopping; If False, lr is halved when reaching each patience')
     optional.add_argument('--region-option', dest='region_option', action='store_true',
@@ -265,6 +294,7 @@ if __name__ == '__main__':
         sigma=sigma,
         loss_name=args.loss,
         loss_function=loss_fn,
+        thld=args.thld
     )
 
     training_history = train(train_args)

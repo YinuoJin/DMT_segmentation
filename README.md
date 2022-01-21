@@ -4,6 +4,10 @@
 This project performs membrane segmentation with FCN regularized by topological loss with critical structure extracted from Discrete Morse Theory (DMT). It aims to reproduce the work of Hu et al. (2021) and applies the method on plant & MIBI-ToF images. 
 
 ### Running
+Please first create directories for input & output<br>
+```mkdir data & mkdir results```<br>
+
+Running the DMT pipeline for training:<br>
 ```./run.sh [loss] # options: (1). bce; (2). dmt```
 
 ### Command-line Options
@@ -27,8 +31,8 @@ optional arguments:
   -m MODEL_PATH        Saved model file
   -r LR                Learning rate
   -p PATIENCE_COUNTER  Patience counter for early-stopping or lr-tuning
+  -t THLD, --thld THLD Persistent Homology threshold for pruning DMT critical structure
   --early-stop         Whether to perform early-stopping; If False, lr is halved when reaching each patience
-
 ```
 
 ### Directories
