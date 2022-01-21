@@ -1,7 +1,7 @@
-# ECBM_4060 Final Project
+# Membrane Segmentation with DMT Loss
 
 ### Overview
-This project performs membrane segmentation with FCN regularized by topological loss with critical structure extracted from Discrete Morse Theory (DMT). It aims to reproduce the work of Hu et al. (2021) and applies the method on plant & MIBI-ToF images. 
+This project performs membrane segmentation (FCN) regularized by topological loss with critical structure extracted from Discrete Morse Theory (DMT). It aims to reproduce the work of Hu et al. (2021) and applies the method on plant & MIBI-ToF images. 
 
 ### Running
 Please first create directories for input & output<br>
@@ -37,7 +37,7 @@ optional arguments:
 
 ### Directories
 ```
-- EDA.ipynb:    exploratory analysis + visualizatiohn
+- EDA.ipynb:    exploratory analysis + visualization
 - net.py:       FCN architecture
 - dataset.py:   io
 - train.py:     training; command-line interface
