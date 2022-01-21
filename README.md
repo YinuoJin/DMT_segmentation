@@ -37,15 +37,16 @@ optional arguments:
 
 ### Directories
 ```
-- EDA.ipynb:    exploratory analysis + visualization
-- net.py:       FCN architecture
-- dataset.py:   io
-- train.py:     training; command-line interface
-- utils:        utility & self-defined loss functions
-|_ dmt:             Modified (automated) code from https://github.com/HuXiaoling/DMT_loss
-|_ docs:            html "screenshot" of the analysis notebooks
-|_ data:            dataset 
-|_ results:         training log & output files
+.
+ EDA.ipynb:         Exploratory analysis + visualization
+ net.py:            FCN architecture
+ dataset.py:        io
+ train.py:          Training; command-line interface
+ utils:             Utility & self-defined loss functions
+├── dmt:            Modified (automated) code from https://github.com/HuXiaoling/DMT_loss
+├── docs:           Html "screenshot" of the analysis notebooks
+├── data:           Dataset 
+├── results:        Training log & output files
 ```
 
 ### References

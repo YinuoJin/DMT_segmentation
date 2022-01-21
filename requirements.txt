@@ -1,0 +1,10 @@
+matplotlib
+numpy
+pandas
+scipy
+scikit-learn
+scikit-image
+torch
+h5py
+opencv
+progress
