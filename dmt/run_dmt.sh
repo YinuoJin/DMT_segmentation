@@ -27,14 +27,23 @@ else
   ./convert_dipha.py -i ${input_path}dipha.edges -o ${input_path}dipha_edges.txt
 
   # (4). Reconstruct DMT
-  #for i in `seq 0 10 300`; do
-  #  $dmt_path ${input_path}vert.txt ${input_path}dipha_edges.txt $i $output_path
-  #  python visualize.py -f ${output_path}dimo_vert.txt -m ${output_path}${fig_name}_${i}.tiff -d $len $wid $height
-  #done
-  
-  $dmt_path ${input_path}vert.txt ${input_path}dipha_edges.txt $ph_thld $output_path
+  # If given negative threshold (eps<0), iterative through eps from 0-256
+  if [[ $ph_thld -lt 0 ]]
+  then
+    for i in `seq 16 16 256`; do
+      $dmt_path ${input_path}vert.txt ${input_path}dipha_edges.txt $i $output_path
+      # (5). Visualize
+      python visualize.py -f ${output_path}dimo_vert.txt -m ${output_path}${fig_name}_eps_${i}.tiff -d $len $wid $height
+    done
+  else
 
-  # (5). Visualize
-  python visualize.py -f ${output_path}dimo_vert.txt -m ${output_path}${fig_name}.tiff -d $len $wid $height
+    # (5). Visualize
+    $dmt_path ${input_path}vert.txt ${input_path}dipha_edges.txt $ph_thld $output_path
+    python visualize.py -f ${output_path}dimo_vert.txt -m ${output_path}${fig_name}.tiff -d $len $wid $height
 
+  fi
+
+  # (6).cleanup
+  rm -f ${input_path}complex.bin ${input_path}diagram.bin ${input_path}dipha.edges ${input_path}dipha_edges.txt ${input_path}vert.txt
+  rm -f ${output_path}dimo_edge.txt ${output_path}dimo_vert.txt
 fi

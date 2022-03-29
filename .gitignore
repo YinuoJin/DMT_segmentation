@@ -32,3 +32,10 @@ data/
 .ipynb_checkpoints
 data/*
 models/*
+dmt/inputs/*
+dmt/output/*
+*.txt
+*.bin
+*.edge
+*.csv
+

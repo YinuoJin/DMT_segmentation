@@ -7,6 +7,8 @@ DIPHA_CONST = 8067171840
 DIPHA_IMAGE_TYPE_CONST = 1
 DIM = 3
 
+# Modify input as single-image filename
+"""
 input_dir = os.path.join(os.getcwd(), sys.argv[1])
 dipha_output_filename = sys.argv[2]
 vert_filename = sys.argv[3]
@@ -16,24 +18,38 @@ input_filenames = [name
                    if (os.path.isfile(input_dir + '/' + name)) and (name != ".DS_Store")]
 input_filenames.sort()
 
+iamge = mpimg.imread(os.path.join(input_dir, input_filenames[0]))
+"""
+input_filename = os.path.join(os.getcwd(), sys.argv[1])
+dipha_output_filename = sys.argv[2]
+vert_filename = sys.argv[3]
 
-image = mpimg.imread(os.path.join(input_dir, input_filenames[0]))
+assert os.path.exists(input_filename) and os.path.isfile(input_filename), "Input image file {} doesn't exist".format(input_filename)
+
+image = mpimg.imread(input_filename)
 nx, ny = image.shape
 del image
-nz = len(input_filenames)
+
+
+# nz = len(input_filenames)
+nz = 1
 
 print(nx, ny, nz)
 #sys.exit()
 im_cube = np.zeros([nx, ny, nz])
 
 i = 0
-for name in input_filenames:
+"""
+for name in input_filename:
     sys.stdout.flush()
     print(i, name)
     fileName = input_dir + "/" + name
     im_cube[:, :, i] = mpimg.imread(fileName)
     i = i + 1
-
+"""
+sys.stdout.flush()
+print(i, input_filename)
+im_cube[:, :, 0] = mpimg.imread(input_filename)
 
 print('writing dipha output...')
 with open(dipha_output_filename, 'wb') as output_file:
